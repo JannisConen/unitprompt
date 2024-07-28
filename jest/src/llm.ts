@@ -4,6 +4,6 @@ export class LLM {
     model: ChatOpenAI;
 
     constructor() {
-        this.model = new ChatOpenAI({ model: process.env.MODEL ?? "gpt-4o" });
+        this.model = new ChatOpenAI({ model: "gpt-4o" });
     }
 }
