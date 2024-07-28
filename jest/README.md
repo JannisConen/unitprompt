@@ -38,5 +38,3 @@ expect.extend({ toBeConciseAnswerTo });
   "setupFilesAfterEnv": ["./setup.js"]
 }
 ```
-
-### To automatically extend `expect` with all matchers, you can use
