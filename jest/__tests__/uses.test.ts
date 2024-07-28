@@ -1,6 +1,6 @@
-import { customMatchers } from '../src/customMatchers';
+import { unitPromptMatchers } from '../src/unitPromptMatchers';
 
-expect.extend(customMatchers);
+expect.extend(unitPromptMatchers);
 
 describe('Custom Format Matchers', () => {
     test('should validate XML strings correctly', () => {

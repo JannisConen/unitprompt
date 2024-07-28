@@ -17,20 +17,17 @@ yarn add -D unitprompt
 
 ## Setup
 
-### CAUTION
-`unitprompt` only supports Jest version 27.2.5 and newer. Older versions of Jest are not supported.
-
 ### Create a setup script with the following:
 
-**testSetup.js**
+**setup.js**
 ```javascript
 // add all unitprompt matchers
-import * as matchers from 'unitprompt';
-expect.extend(matchers);
+import { unitPromptMatchers } from './unitPromptMatchers';
+expect.extend(unitPromptMatchers);
 
 // or just add specific matchers
-import { toBeValidLLMOutput } from 'unitprompt';
-expect.extend({ toBeValidLLMOutput });
+import { toBeConciseAnswerTo } from 'unitprompt';
+expect.extend({ toBeConciseAnswerTo });
 ```
 
 ### Add your setup script to your Jest `setupFilesAfterEnv` configuration.
@@ -38,7 +35,7 @@ expect.extend({ toBeValidLLMOutput });
 **package.json**
 ```json
 "jest": {
-  "setupFilesAfterEnv": ["./testSetup.js"]
+  "setupFilesAfterEnv": ["./setup.js"]
 }
 ```
 

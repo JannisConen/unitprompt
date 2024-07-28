@@ -10,7 +10,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-interface CustomMatchers<R = unknown> {
+interface UnitPromptMatchers<R = unknown> {
     toBeParsableJson(): R;
     toBeParsableXml(): R;
     toBeParsableYaml(): R;
@@ -24,11 +24,11 @@ interface CustomMatchers<R = unknown> {
   
   declare global {
     namespace jest {
-      interface Matchers<R> extends CustomMatchers<R> {}
+      interface Matchers<R> extends UnitPromptMatchers<R> {}
     }
   }
   
-  export const customMatchers: jest.ExpectExtendMap = {
+  export const unitPromptMatchers: jest.ExpectExtendMap = {
     toBeParsableJson,
     toBeParsableXml,
     toBeParsableYaml,

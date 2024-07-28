@@ -1,3 +1,3 @@
-import { customMatchers } from './customMatchers';
+import { unitPromptMatchers } from './unitPromptMatchers';
 
-expect.extend(customMatchers);
+expect.extend(unitPromptMatchers);
