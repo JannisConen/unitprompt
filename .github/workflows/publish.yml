@@ -87,6 +87,7 @@ jobs:
   publish_pytest:
     needs: build
     runs-on: ubuntu-latest
+    environment: test
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -101,6 +102,8 @@ jobs:
         run: poetry install
         working-directory: ./pytest
       - name: Build and publish Python package
+        env:
+          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
         run: |
           poetry build
           poetry publish --username __token__ --password ${{ secrets.PYPI_TOKEN }}
