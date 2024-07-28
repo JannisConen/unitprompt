@@ -16,8 +16,10 @@ jobs:
     strategy:
       matrix:
         node-version: [20.15.0]
+        python-version: [3.10]
 
     steps:
+      # Jest
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -36,7 +38,24 @@ jobs:
         run: npm test
         working-directory: ./jest
 
-  publish:
+      # Pytest
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      
+      - name: Install Python dependencies
+        run: poetry install
+        working-directory: ./pytest
+      
+      - name: Run Python tests
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          MODEL: ${{ env.MODEL }}
+        run: poetry run pytest
+        working-directory: ./pytest
+
+  publish_jest:
     needs: build
     runs-on: ubuntu-latest
     environment: test
@@ -59,3 +78,21 @@ jobs:
           echo "//registry.npmjs.org/:_authToken=\${NODE_AUTH_TOKEN}" > ~/.npmrc
           npm publish --access public
         working-directory: ./jest
+
+  publish_pytest:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: poetry install
+        working-directory: ./pytest
+      - name: Build and publish Python package
+        run: |
+          poetry build
+          poetry publish
+        working-directory: ./pytest

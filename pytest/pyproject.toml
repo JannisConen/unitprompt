@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "unitprompt"
+version = "0.0.1"
+description = "A custom pytest matcher that helps you test prompts"
+authors = ["JannisConen <jannis.conen@gmail.com>"]
+readme = "README.md"
+packages = [{include = "unitprompt"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.2"
+pyyaml = "^6.0.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
