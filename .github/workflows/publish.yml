@@ -103,5 +103,5 @@ jobs:
       - name: Build and publish Python package
         run: |
           poetry build
-          poetry publish
+          poetry publish --username __token__ --password ${{ secrets.PYPI_TOKEN }}
         working-directory: ./pytest
