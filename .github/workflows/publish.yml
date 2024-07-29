@@ -30,6 +30,7 @@ jobs:
         working-directory: ./jest
       - name: Copy shared prompts for Jest
         run: cp -r ../shared/prompts ./prompts
+        working-directory: ./jest
       - name: Build the project
         run: npm run build
         working-directory: ./jest
@@ -53,7 +54,7 @@ jobs:
 
       - name: Copy shared prompts for Pytest
         run: cp -r ../shared/prompts ./unitprompt/prompts
-      
+        working-directory: ./pytest
       - name: Install Python dependencies
         run: poetry install
         working-directory: ./pytest
