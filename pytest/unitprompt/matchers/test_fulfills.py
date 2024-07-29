@@ -11,7 +11,8 @@ async def assert_fulfills(received: str, prompt: str, goal: str = "true_false"):
     if goal == "true_false":
         llm.model.max_tokens = 1
         complete_prompt += "\nIf true: respond with 1, if false with 0"
-    result = await llm.invoke(prompt + "\nTo test: {received} \n If true: respond with 1, if false with 0", { received: received })
+        
+    result = await llm.invoke(prompt + "\nTo test: {received} \n If true: respond with 1, if false with 0", { "received": received })
     
     if goal == "true_false":
         if result == "1":
