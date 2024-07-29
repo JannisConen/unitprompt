@@ -10,6 +10,8 @@ from matchers.uses.test_uses_markdown import assert_is_markdown
 
 from matchers.style.test_conciseness import assert_concise_answer, assert_conciseness
 
+from matchers.test_fulfills import assert_fulfills
+
 @pytest.fixture
 def parsable_json():
     return assert_parsable_json
@@ -45,3 +47,7 @@ def is_concise():
 @pytest.fixture
 def is_concise_answer():
     return assert_concise_answer
+
+@pytest.fixture
+def fulfills():
+    return assert_fulfills

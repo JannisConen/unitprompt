@@ -13,9 +13,8 @@ export class LLM {
 
     public async invoke(prompt: string, variables: any): Promise<any> {
         const promptTemplate = PromptTemplate.fromTemplate(prompt);
-        const formattedPrompt = await promptTemplate.format(variables);
 
-        const chain = this.model.pipe(new StringOutputParser());
-        return await chain.invoke(formattedPrompt);
+        const chain = promptTemplate.pipe(this.model).pipe(new StringOutputParser());
+        return await chain.invoke(variables);
     }
 }
