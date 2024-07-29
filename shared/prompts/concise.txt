@@ -1,0 +1,2 @@
+You have to decide whether the following text is concise. If it is concise, return a 1, else a 0. Text:
+{received}

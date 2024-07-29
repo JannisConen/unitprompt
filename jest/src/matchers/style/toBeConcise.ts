@@ -1,13 +1,13 @@
 import { LLM } from "../../llm";
 import { StringOutputParser } from "@langchain/core/output_parsers";
+import { getPrompt } from "../../utils/getPrompt";
 
 export async function toBeConcise(received: string){
-    
-    const model = new LLM().model;
-    model.maxTokens = 1;
-    const chain = new LLM().model.pipe(new StringOutputParser());
 
-    const result = await chain.invoke("You have to decide whether the following text is concise. If it is concise, return a 1, else a 0. Text:\n" + received)
+    const llm = new LLM();
+    llm.model.maxTokens = 1;
+
+    const result = await llm.invoke(getPrompt("concise"), { received });
 
     if (result === "1") {
         return {
@@ -24,11 +24,10 @@ export async function toBeConcise(received: string){
 
 export async function toBeConciseAnswerTo(received: string, question: string){
     
-    const model = new LLM().model;
-    model.maxTokens = 1;
-    const chain = new LLM().model.pipe(new StringOutputParser());
+    const llm = new LLM();
+    llm.model.maxTokens = 1;
 
-    const result = await chain.invoke("You have to decide whether the following text is a concise answer to the question. If it is concise, return a 1, else a 0. Question:\n" + question + "\n Text:\n" + received)
+    const result = await llm.invoke(getPrompt("concise_answer"), { received, question });
 
     if (result === "1") {
         return {

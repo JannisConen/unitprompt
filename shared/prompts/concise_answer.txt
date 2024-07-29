@@ -1,0 +1,5 @@
+You have to decide whether the following text is a concise answer to the question. If it is concise, return a 1, else a 0. 
+Question:
+{question}
+Text:
+{received}
