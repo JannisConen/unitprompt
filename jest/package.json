@@ -1,6 +1,6 @@
 {
   "name": "unitprompt",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A custom Jest matcher that helps you test prompts",
   "main": "dist/customMatchers.js",
   "types": "dist/customMatchers.d.ts",
