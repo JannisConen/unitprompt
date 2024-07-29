@@ -70,6 +70,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20.15.0'
+      - name: Copy shared prompts for Jest
+        run: cp -r ../shared/prompts ./prompts
       - name: Install dependencies
         run: npm ci
         working-directory: ./jest
@@ -101,6 +103,8 @@ jobs:
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
           echo 'export PATH="$HOME/.local/bin:$PATH"' >> $GITHUB_ENV
+      - name: Copy shared prompts for Pytest
+        run: cp -r ../shared/prompts ./unitprompt/prompts
       - name: Install dependencies
         run: poetry install
         working-directory: ./pytest

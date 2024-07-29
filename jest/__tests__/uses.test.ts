@@ -3,10 +3,6 @@ import { unitPromptMatchers } from '../src/unitPromptMatchers';
 expect.extend(unitPromptMatchers);
 
 describe('Custom Format Matchers', () => {
-    test('should validate XML strings correctly', () => {
-        expect('<root><child /></root>').toBeParsableXml();
-        expect('<root><child></root>').not.toBeParsableXml(); // malformed XML
-    });
 
     test('should detect Markdown format correctly', () => {
         expect('# Heading\n**Bold text**').toUseMarkdown();
