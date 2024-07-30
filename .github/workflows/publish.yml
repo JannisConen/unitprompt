@@ -28,7 +28,10 @@ jobs:
         working-directory: ./jest
       - name: Extract version from tag
         id: extract_version
-        run: echo "::set-output name=VERSION::${GITHUB_REF/refs/tags/v/}"
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "VERSION=$VERSION"
+          echo "::set-output name=VERSION::$VERSION"
       - name: Update version
         run: npm version ${{ steps.extract_version.outputs.VERSION }}
         working-directory: ./jest
@@ -65,7 +68,10 @@ jobs:
         working-directory: ./pytest
       - name: Extract version from tag
         id: extract_version
-        run: echo "::set-output name=VERSION::${GITHUB_REF/refs/tags/v/}"
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "VERSION=$VERSION"
+          echo "::set-output name=VERSION::$VERSION"
       - name: Update version
         run: poetry version ${{ steps.extract_version.outputs.VERSION }}
         working-directory: ./pytest
