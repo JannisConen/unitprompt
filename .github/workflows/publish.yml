@@ -19,6 +19,7 @@ jobs:
       # Jest
       build:
         uses: ./.github/workflows/build.yml
+        secrets: inherit
 
   publish_jest:
     needs: build
