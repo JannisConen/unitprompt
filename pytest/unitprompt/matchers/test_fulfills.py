@@ -1,26 +1,30 @@
 import pytest
 from unitprompt.llm import LLM
+import logging
 
+logger = logging.getLogger(__name__)
 
 async def assert_fulfills(received: str, prompt: str, goal: str = "true_false"):
     
-    complete_prompt = "\nTo test: {received}" 
+    complete_prompt = "This is the result of a function: {received}\n#\n Check if this condition is 100% fulfilled: {prompt}"
     
     llm = LLM()
     
     if goal == "true_false":
         llm.model.max_tokens = 1
-        complete_prompt += "\nIf true: respond with 1, if false with 0"
+        complete_prompt += "\n#\n<Your response>If condition fulfilled: respond with 1, if not with 0</Your response>"
         
-    result = await llm.invoke(prompt + "\nTo test: {received} \n If true: respond with 1, if false with 0", { "received": received })
+    result = await llm.invoke(complete_prompt, { "received": received, "prompt": prompt })
+    
+    logger.info(f"Result: {result}")
     
     if goal == "true_false":
         if result == "1":
-            pass
+            return
         else:
             raise pytest.fail(f"Expected {received} to be result in a test = 1, but it was not")
     else:
         if result == goal:
-            pass
+            return
         else:
             raise pytest.fail(f"Expected {received} to be fulfill condition, but it did not")
