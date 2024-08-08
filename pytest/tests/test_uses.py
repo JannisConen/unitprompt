@@ -1,6 +1,6 @@
 import pytest
 from unitprompt.matchers.uses.test_uses_html import assert_is_html
-from unitprompt.matchers.uses.test_uses_latex import assert_is_latex
+from unitprompt import assert_is_latex
 from unitprompt.matchers.uses.test_uses_markdown import assert_is_markdown
 
 def test_uses_html():
