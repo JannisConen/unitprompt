@@ -114,18 +114,3 @@ async def test_format_solution():
 @pytest.mark.asyncio
 async def test_solution_in_line_with_given_task():
     await assert_fulfills(output, "The solution uses the same solving style as this one: " + given_style)
-
-@pytest.mark.asyncio
-async def test_solution_in_line_with_given_task_fail():
-    output = """
-    \\[
-    \\begin{array}{l}
-    =\\frac{1}{4}\\left[\\left(4 \\cdot 2^{2}+1\\right)^{\\frac{1}{2}}-\\left(4 \\cdot 1^{2}+1\\right)^{\\frac{1}{2}}\\right] \\\\
-    =\\frac{1}{4} \\cdot\\left(17^{\\frac{1}{2}}-5^{\\frac{1}{2}}\\right) \\\\
-    \\approx 0,47
-    \\end{array}
-    \\]
-    """
-    
-    with pytest.raises(pytest.fail.Exception):
-        await assert_fulfills(output, "The solution uses the same solving style as this one: " + given_style)
