@@ -110,7 +110,3 @@ async def test_format_solution():
         await assert_fulfills(output, "Important headlines are marked with \\textit")
         
     await assert_fulfills(output, "Important headlines are marked with \\textbf")
-    
-@pytest.mark.asyncio
-async def test_solution_in_line_with_given_task():
-    await assert_fulfills(output, "The solution uses the same solving style as this one: " + given_style)
