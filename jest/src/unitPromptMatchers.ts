@@ -3,7 +3,7 @@ import { toBeParsableJson } from "./matchers/parsable/toBeParsableJson";
 import { toBeParsableXml } from "./matchers/parsable/toBeParsableXml";
 import { toBeParsableYaml } from "./matchers/parsable/toBeParsableYaml";
 import { toBeConcise, toBeConciseAnswerTo } from "./matchers/style/toBeConcise";
-import { FulfillmentGoal, toFulfill } from "./matchers/toFulfill";
+import { toFulfill } from "./matchers/toFulfill";
 import { toUseHtml } from "./matchers/uses/toUseHtml";
 import { toUseLatex } from "./matchers/uses/toUseLatex";
 import { toUseMarkdown } from "./matchers/uses/toUseMarkdown";
@@ -21,7 +21,7 @@ interface UnitPromptMatchers<R = unknown> {
     toUseMarkdown(): R;
     toBeConcise(): Promise<R>;
     toBeConciseAnswerTo(question: string): Promise<R>;
-    toFulfill(prompt: string, goal?: FulfillmentGoal): R;
+    toFulfill(prompt: string|string[]): R;
   }
   
   declare global {
