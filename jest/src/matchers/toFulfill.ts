@@ -1,44 +1,39 @@
 import { LLM } from "../llm";
 
-export type FulfillmentGoal = "true_false" | string
-
-export async function toFulfill(received: string, prompt: string, goal: FulfillmentGoal = "true_false") {
-    
+export async function toFulfill(received: string, prompt: string | string[]) {
     const llm = new LLM();
+    const unfulfilledConditions: string[] = [];
 
-    prompt += "\nTo test: {received}";
-
-    if (goal == "true_false"){
-        llm.model.maxTokens = 1;
-        prompt += "\nIf true: respond with 1, if false with 0";
+    // Ensure prompt is an array
+    if (!Array.isArray(prompt)) {
+        prompt = [prompt];
     }
 
-    const result = await llm.invoke(prompt, { received: received });
+    for (const condition of prompt) {
+        let completePrompt = "<Goal>Check whether the input satisfies the condition</Goal>";
+        completePrompt += `<Condition>${condition}</Condition>`;
+        completePrompt += `<Input>${received}</Input>`;
+        
+        // Limiting maxTokens as it will only expect a "1" or "0" response
+        llm.model.maxTokens = 1;
+        completePrompt += "<Response>If condition satisfied: 1, if condition is not satisfied: 0</Response>";
 
-    if (goal == "true_false"){
+        const result = await llm.invoke(completePrompt, { received: received, prompt: condition });
 
-        if (result === "1") {
-            return {
-                message: () => `expected ${received} to fulfill ${goal}`,
-                pass: true,
-            };
-        } else {
-            return {
-                message: () => `expected ${received} not to fulfill ${goal}`,
-                pass: false,
-            };
+        if (result !== "1") {
+            unfulfilledConditions.push(condition);
         }
+    }
+
+    if (unfulfilledConditions.length > 0) {
+        return {
+            message: () => `Expected "${received}" to satisfy the following conditions: ${unfulfilledConditions.join(", ")}, but it did not.`,
+            pass: false,
+        };
     } else {
-        if (result == goal) {
-            return {
-                message: () => `expected ${received} to fulfill ${goal}`,
-                pass: true,
-            };
-        } else {
-            return {
-                message: () => `expected ${received} not to fulfill ${goal}`,
-                pass: false,
-            };
-        }
+        return {
+            message: () => `Expected "${received}" to satisfy the given conditions, and it did.`,
+            pass: true,
+        };
     }
 }

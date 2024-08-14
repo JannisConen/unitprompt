@@ -1,27 +1,27 @@
 import pytest
 from unitprompt.llm import LLM
 
-async def assert_fulfills(received: str, prompt: str, goal: str = "true_false"):
+async def assert_fulfills(received: str, prompt):
     
-    complete_prompt = "<Goal>Check whether the input satisfies the condition</Goal>"
-    complete_prompt += "<Condition>{prompt}</Condition>"
-    complete_prompt += "<Input>{received}</Input>"
+    # Check if prompt is a list, if not, convert it to a list
+    if not isinstance(prompt, list):
+        prompt = [prompt]
     
     llm = LLM()
     
-    if goal == "true_false":
+    unfulfilled_conditions = []
+    for condition in prompt:
+        complete_prompt = "<Goal>Check whether the input satisfies the condition</Goal>"
+        complete_prompt += f"<Condition>{condition}</Condition>"
+        complete_prompt += f"<Input>{received}</Input>"
+        
         llm.model.max_tokens = 1
         complete_prompt += "<Response>If condition satisfied: 1, if condition is not satisfied: 0</Response>"
+            
+        result = await llm.invoke(complete_prompt, { "received": received, "prompt": condition })
         
-    result = await llm.invoke(complete_prompt, { "received": received, "prompt": prompt })
-    
-    if goal == "true_false":
-        if result == "1":
-            return
-        else:
-            raise pytest.fail(f"Expected {received} to be result in a test = 1, but it was not")
-    else:
-        if result == goal:
-            return
-        else:
-            raise pytest.fail(f"Expected {received} to be fulfill condition, but it did not")
+        if result != "1":
+            unfulfilled_conditions.append(condition)
+
+    if len(unfulfilled_conditions) > 0:
+        raise pytest.fail(f"Expected {received} to satisfy the following conditions: {unfulfilled_conditions}, but it did not.")

@@ -29,6 +29,7 @@ test('should be concise answer', async () => {
 Create a local symlink for the shared/prompts directory:
 
 For jest inside /jest:
+
 *Windows*
 ```sh
 New-Item -ItemType SymbolicLink -Path .\prompts -Target ..\shared\prompts
@@ -39,6 +40,7 @@ ln -s ../shared/prompts ./prompts
 ```
 
 For pytest inside /pytest/unitprompt:
+
 *Windows*
 ```sh
 New-Item -ItemType SymbolicLink -Path .\prompts -Target ..\..\shared\prompts

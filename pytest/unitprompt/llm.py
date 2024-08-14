@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 class LLM:
     def __init__(self):
         load_dotenv()
-        self.model = ChatOpenAI(model="gpt-4o")
+        self.model = ChatOpenAI(model="gpt-4o-mini")
 
     async def invoke(self, prompt: str, variables: dict) -> str:
         prompt_template = PromptTemplate.from_template(prompt)
