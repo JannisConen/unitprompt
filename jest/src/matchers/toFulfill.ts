@@ -11,14 +11,14 @@ export async function toFulfill(received: string, prompt: string | string[]) {
 
     for (const condition of prompt) {
         let completePrompt = "<Goal>Check whether the input satisfies the condition</Goal>";
-        completePrompt += `<Condition>${condition}</Condition>`;
-        completePrompt += `<Input>${received}</Input>`;
+        completePrompt += `<Condition>{condition}</Condition>`;
+        completePrompt += `<Input>{received}</Input>`;
         
         // Limiting maxTokens as it will only expect a "1" or "0" response
         llm.model.maxTokens = 1;
         completePrompt += "<Response>If condition satisfied: 1, if condition is not satisfied: 0</Response>";
 
-        const result = await llm.invoke(completePrompt, { received: received, prompt: condition });
+        const result = await llm.invoke(completePrompt, { received, condition });
 
         if (result !== "1") {
             unfulfilledConditions.push(condition);

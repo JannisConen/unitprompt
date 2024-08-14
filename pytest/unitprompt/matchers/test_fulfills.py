@@ -18,7 +18,7 @@ async def assert_fulfills(received: str, prompt):
         llm.model.max_tokens = 1
         complete_prompt += "<Response>If condition satisfied: 1, if condition is not satisfied: 0</Response>"
             
-        result = await llm.invoke(complete_prompt, { "received": received, "prompt": condition })
+        result = await llm.invoke(complete_prompt, { "received": received, "condition": condition })
         
         if result != "1":
             unfulfilled_conditions.append(condition)
