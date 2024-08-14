@@ -12,8 +12,8 @@ async def assert_fulfills(received: str, prompt):
     unfulfilled_conditions = []
     for condition in prompt:
         complete_prompt = "<Goal>Check whether the input satisfies the condition</Goal>"
-        complete_prompt += f"<Condition>{condition}</Condition>"
-        complete_prompt += f"<Input>{received}</Input>"
+        complete_prompt += "<Condition>{condition}</Condition>"
+        complete_prompt += "<Input>{received}</Input>"
         
         llm.model.max_tokens = 1
         complete_prompt += "<Response>If condition satisfied: 1, if condition is not satisfied: 0</Response>"
